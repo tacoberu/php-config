@@ -14,8 +14,10 @@ use Nette,
  * system: C:/Windows/system32/doe.ini
  * user: C:/Users/<current user>/.config/doe/config.ini
  */
-class PlatformStyleWin extends Nette\Object implements PlatformStyle
+class PlatformStyleWin implements PlatformStyle
 {
+
+	use Nette\SmartObject;
 
 	/**
 	 * @var string

@@ -14,8 +14,10 @@ use Nette,
  * system: /etc/doe.ini
  * user: /home/<current user>/.config/doe/config.ini
  */
-class PlatformStyleUnix extends Nette\Object implements PlatformStyle
+class PlatformStyleUnix implements PlatformStyle
 {
+
+	use Nette\SmartObject;
 
 	/**
 	 * @var string
