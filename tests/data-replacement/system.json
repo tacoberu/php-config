@@ -1,0 +1,9 @@
+{
+	"name": "Andreaw Fean",
+	"version": 3,
+	"file": "%dir%/foo",
+	"items": [
+		"%dir%/foo",
+		"%file%/foo"
+	]
+}

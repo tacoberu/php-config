@@ -106,6 +106,10 @@ class Resolver
 			}
 			if ($map) {
 				$data = self::merge((array) $data, (array) $map);
+				$data = $this->applyReplacement((array) $data, [
+					'%dir%' => dirname($uri),
+					'%file%' => $uri,
+				]);
 			}
 		}
 		return $data;
@@ -175,6 +179,24 @@ class Resolver
 			}
 		}
 		throw new RuntimeException("Unsupported type of content for: `$ext'.");
+	}
+
+
+
+	/**
+	 * @return Parser
+	 */
+	private function applyReplacement(array $map, array $replacement)
+	{
+		foreach ($map as $i => $val) {
+			if (is_string($val) && strpos($val, '%') !== False) {
+				$map[$i] = strtr($val, $replacement);
+			}
+			elseif (is_array($val) && count($val)) {
+				$map[$i] = $this->applyReplacement($val, $replacement);
+			}
+		}
+		return $map;
 	}
 
 

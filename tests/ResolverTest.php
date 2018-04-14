@@ -91,4 +91,25 @@ class ResolverTest extends PHPUnit_Framework_TestCase
 		], $resolver->fetch());
 	}
 
+
+
+	function testReplacement()
+	{
+		$style = $this->mockista->create(PlatformStyle::class);
+		$style->expects('getSystemConfig')->andReturn([__dir__ . '/data-replacement/system.json']);
+		$style->expects('getUserConfig')->andReturn([__dir__ . '/data-replacement/user.json']);
+		$style->expects('getLocalConfig')->andReturn([__dir__ . '/data-replacement/local.json']);
+		$resolver = new Resolver($style, 'doe', __dir__ . '/data-replacement/default.json', '.');
+		$this->assertEquals([
+			'name' => 'Andreaw Fean',
+			'version' => 3,
+			"app" => "Doe",
+			"file" => __dir__ . '/data-replacement/foo',
+			"items" => [
+				__dir__ . '/data-replacement/foo',
+				__dir__ . '/data-replacement/system.json/foo',
+			]
+		], $resolver->fetch());
+	}
+
 }
