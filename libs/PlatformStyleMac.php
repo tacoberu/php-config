@@ -14,8 +14,10 @@ use Nette,
  * system: /private/etc/doe.ini
  * user: /Users/<current user>/.config/doe/config.ini
  */
-class PlatformStyleMac extends Nette\Object implements PlatformStyle
+class PlatformStyleMac implements PlatformStyle
 {
+
+	use Nette\SmartObject;
 
 	/**
 	 * @var string
