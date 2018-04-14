@@ -1,0 +1,11 @@
+{
+	"name": "Andreaw Fean",
+	"version": 3,
+	"items": [
+		2
+	],
+	"items-with-extends": [
+		"%parent%",
+		4, 3
+	]
+}

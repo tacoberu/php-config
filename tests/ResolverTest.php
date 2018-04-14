@@ -57,4 +57,38 @@ class ResolverTest extends PHPUnit_Framework_TestCase
 	}
 
 
+
+	function testExtends()
+	{
+		$style = $this->mockista->create(PlatformStyle::class);
+		$style->expects('getSystemConfig')->andReturn([__dir__ . '/data2/system.json']);
+		$style->expects('getUserConfig')->andReturn([__dir__ . '/data2/user.json']);
+		$style->expects('getLocalConfig')->andReturn([__dir__ . '/data2/local.json']);
+		$resolver = new Resolver($style, 'doe', __dir__ . '/data2/default.json', '.');
+		$this->assertEquals([
+			'name' => 'Andreaw Fean',
+			'version' => 3,
+			"app" => "Doe",
+			"items" => [2],
+			"items-with-extends" => [1,2,3,4,3],
+		], $resolver->fetch());
+	}
+
+
+
+	function testExtends2()
+	{
+		$style = $this->mockista->create(PlatformStyle::class);
+		$style->expects('getSystemConfig')->andReturn([__dir__ . '/data2/system.json']);
+		$style->expects('getUserConfig')->andReturn([__dir__ . '/data2/user.json']);
+		$style->expects('getLocalConfig')->andReturn([__dir__ . '/data2/local.json']);
+		$resolver = new Resolver($style, 'doe', __dir__ . '/data2/default-x.json', '.');
+		$this->assertEquals([
+			'name' => 'Andreaw Fean',
+			'version' => 3,
+			"items" => [2],
+			"items-with-extends" => [4,3],
+		], $resolver->fetch());
+	}
+
 }

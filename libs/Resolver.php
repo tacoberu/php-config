@@ -20,6 +20,8 @@ class Resolver
 
 	use Nette\SmartObject;
 
+	const KEY_EXTENDS = '%parent%';
+
 	/**
 	 * @var string
 	 */
@@ -103,7 +105,7 @@ class Resolver
 				}
 			}
 			if ($map) {
-				$data = $this->merge((array) $data, (array) $map);
+				$data = self::merge((array) $data, (array) $map);
 			}
 		}
 		return $data;
@@ -131,18 +133,6 @@ class Resolver
 
 		// Můžeme to určit podle koncovku, ale také podle obsahu.
 		return $this->resolveParserFor($resource)->parse($resource);
-	}
-
-
-
-	/**
-	 * @param array
-	 * @param array
-	 * @return array
-	 */
-	private function merge(array $orig, array $nuevo)
-	{
-		return array_merge($orig, $nuevo);
 	}
 
 
@@ -185,6 +175,28 @@ class Resolver
 			}
 		}
 		throw new RuntimeException("Unsupported type of content for: `$ext'.");
+	}
+
+
+
+	/**
+	 * @return array
+	 */
+	private static function merge(array $orig, array $nuevo)
+	{
+		$nuevo = array_merge($orig, $nuevo);
+		foreach ($nuevo as $k => $val) {
+			if (is_array($val) && isset($val[0]) && $val[0] === self::KEY_EXTENDS) {
+				unset($val[0]);
+				if (isset($orig[$k])) {
+					$nuevo[$k] = array_merge($orig[$k], $val);
+				}
+				else {
+					$nuevo[$k] = array_slice($nuevo[$k], 1);
+				}
+			}
+		}
+		return $nuevo;
 	}
 
 }

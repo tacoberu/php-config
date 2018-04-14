@@ -1,0 +1,8 @@
+{
+	"app": "Doe",
+	"version": 4,
+	"items": [1],
+	"items-with-extends": [
+		1, 2, 3
+	]
+}
